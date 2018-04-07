@@ -8,9 +8,9 @@
     groups: sudo
     append: yes
 
-- name: Add Lan ETS Infrastructure Team keys to lanets user.
+- name: Add Lan ETS Infrastructure Team keys to sysadmin user.
   authorized_key:
-    user: lanets
+    user: sysadmin
     key: "{{ item }}"
   with_items:
     - https://github.com/laurentdumont.keys
