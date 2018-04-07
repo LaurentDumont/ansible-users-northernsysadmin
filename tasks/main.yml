@@ -1,0 +1,24 @@
+---
+
+- name: Add user to sudo group.
+  user:
+    name: sysadmin
+    state: present
+    comment: "Standard user for sudo permissions"
+    groups: sudo
+    append: yes
+
+- name: Add Lan ETS Infrastructure Team keys to lanets user.
+  authorized_key:
+    user: lanets
+    key: "{{ item }}"
+  with_items:
+    - https://github.com/laurentdumont.keys
+
+- name: Allow privilege escalation without password.
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%sudo ALL\='
+    line: '%sudo ALL=(ALL) NOPASSWD:ALL'
+    validate: 'visudo -cf %s'
